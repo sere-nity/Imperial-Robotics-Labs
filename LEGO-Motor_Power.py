@@ -24,6 +24,7 @@ BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be 
 try:
     try:
         BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(BP.PORT_B)) # reset encoder B
+        BP.offset_motor_encoder(BP.PORT_C, BP.get_motor_encoder(BP.PORT_C))
     except IOError as error:
         print(error)
     
@@ -39,6 +40,11 @@ try:
             print(error)
             power = 0
         BP.set_motor_power(BP.PORT_C, power)
+        
+        try:
+            print("Motor C power: %6d  Motor C Status: " % power, BP.get_motor_status(BP.PORT_C))
+        except IOError as error:
+            print(error)
         
         time.sleep(0.02)  # delay for 0.02 seconds (20ms) to reduce the Raspberry Pi CPU load.
 

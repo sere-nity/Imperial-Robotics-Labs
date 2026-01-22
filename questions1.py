@@ -27,8 +27,10 @@ def forward(distance: float):
     try:
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) + offset/2)
+        time.sleep(distance / (MOVEMENT_SPEED * WHEEL_CIRCUMFERENCE / 360) / 2 + WAIT_TIME)  # wait for movement to complete
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) + offset)
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset)
+        time.sleep(distance / (MOVEMENT_SPEED * WHEEL_CIRCUMFERENCE / 360) / 2 + WAIT_TIME)  # wait for movement to complete
     except IOError as error:
         print(error)
     
@@ -37,15 +39,17 @@ def forward(distance: float):
     except IOError as error:
         print(error)
 
-    time.sleep(distance / (MOVEMENT_SPEED * WHEEL_CIRCUMFERENCE / 360) + WAIT_TIME)  # wait for movement to complete
 
 def turnClockwise(angle: float):
     offset = (WHEELBASE_WIDTH * PI * angle / 360) / WHEEL_CIRCUMFERENCE * 360
     try:
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset/2)
+        time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) / 2 + WAIT_TIME)  # wait for movement to complete
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset)
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset)
+        time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) / 2 + WAIT_TIME)  # wait for movement to complete
+
     except IOError as error:
         print(error)
     
@@ -53,9 +57,6 @@ def turnClockwise(angle: float):
         print("Turning clockwise %f degrees\nA offset %f -> %f\nD offset %f -> %f" % (angle, BP.get_motor_encoder(LEFT_MOTOR_PORT), BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset, BP.get_motor_encoder(RIGHT_MOTOR_PORT), BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset))
     except IOError as error:
         print(error)
-    
-    time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) + WAIT_TIME)  # wait for movement to complete
-
 try:
     try:
         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT)) # reset encoder A

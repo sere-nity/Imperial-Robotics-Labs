@@ -50,7 +50,7 @@ def turnClockwise(angle: float):
     except IOError as error:
         print(error)
     
-    time.sleep((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360) + WAIT_TIME)  # wait for movement to complete
+    time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) + WAIT_TIME)  # wait for movement to complete
 
 try:
     try:
@@ -62,11 +62,17 @@ try:
     BP.set_motor_limits(LEFT_MOTOR_PORT, 50, 200)
     BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, 200)
 
-    count = 0
-    while (count < 4):
-        count += 1
-        forward(400)
-        turnClockwise(-90)
+    # count = 0
+    # while (count < 4):
+    #     count += 1
+    #     forward(400)
+    #     turnClockwise(-90)
+
+    # distance calibration
+    forward(500)
+
+    # # turn calibration
+    # turnClockwise(360)
 
 except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
     BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

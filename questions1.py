@@ -68,11 +68,8 @@ try:
     #     forward(400)
     #     turnClockwise(-90)
 
-    # distance calibration
-    forward(500)
-
-    # # turn calibration
-    # turnClockwise(360)
+    # turn calibration
+    turnClockwise(360)
 
 except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
     BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

@@ -15,16 +15,12 @@ WHEEL_DIAMETER = 69.36
 WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * PI
 WHEELBASE_WIDTH = 134.341
 
-<<<<<<< HEAD
-MINI_WAIT_TIME = 0.02  # Time to wait after each movement (Seconds)
-BIG_WAIT_TIME = 0.5    # Time to wait after each set of movements (Seconds)
-=======
+
 # Calibration factors (adjust by trial and error)
 TURN_CALIBRATION_FACTOR = 1.0  # Increase if underturning, decrease if overturning
 FORWARD_CALIBRATION_FACTOR = 1.0  # Adjust if forward distance is off
 
 WAIT_TIME = 0.02  # Time to wait after each movement (Seconds)
->>>>>>> 6bfc694 (add calibration variables)
 
 BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 

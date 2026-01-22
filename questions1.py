@@ -28,8 +28,8 @@ def forward(distance: float):
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) + offset/2)
         time.sleep(distance / (MOVEMENT_SPEED * WHEEL_CIRCUMFERENCE / 360) / 2 + WAIT_TIME)  # wait for movement to complete
-        BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) + offset)
-        BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset)
+        BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) + offset/2)
+        BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         time.sleep(distance / (MOVEMENT_SPEED * WHEEL_CIRCUMFERENCE / 360) / 2 + WAIT_TIME)  # wait for movement to complete
     except IOError as error:
         print(error)
@@ -46,8 +46,8 @@ def turnClockwise(angle: float):
         BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset/2)
         time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) / 2 + WAIT_TIME)  # wait for movement to complete
-        BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset)
-        BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset)
+        BP.set_motor_position(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT) - offset/2)
+        BP.set_motor_position(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT) + offset/2)
         time.sleep(abs((WHEELBASE_WIDTH * PI * angle / 360) / (TURNING_SPEED * WHEEL_CIRCUMFERENCE / 360)) / 2 + WAIT_TIME)  # wait for movement to complete
 
     except IOError as error:

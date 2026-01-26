@@ -22,7 +22,7 @@ BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be 
 LEFT_MOTOR_PORT = BP.PORT_A
 RIGHT_MOTOR_PORT = BP.PORT_D
 
-POSITION_TOLERANCE = 5.0  # Tolerance in degrees for position checking (increased from 0.5 to allow for motor settling)
+POSITION_TOLERANCE = 0.5  # Tolerance in degrees for position checking
 TIMEOUT = 60  # Maximum time to wait for motors to reach position (Seconds)
 
 def wait_for_motor_position(left_target, right_target):
@@ -72,16 +72,12 @@ def forward(distance: float):
         # Reset both encoders to 0 to ensure synchronized absolute targets
         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT))
         BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT))
-        
-        # Set speed limits for forward movement
-        BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
-        BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
 
         print("Moving forward %f mm\nTarget position: %f degrees" % (distance, target))
 
-        # Set both motors to the same target position
-        BP.set_motor_position(LEFT_MOTOR_PORT, target)
-        BP.set_motor_position(RIGHT_MOTOR_PORT, target)
+        # Set both motors simultaneously using combined ports
+        # This sends a single command to both motors at exactly the same time
+        BP.set_motor_position(LEFT_MOTOR_PORT + RIGHT_MOTOR_PORT, target)
 
         wait_for_motor_position(target, target)
         time.sleep(MINI_WAIT_TIME)  # Small pause after reaching target
@@ -97,10 +93,6 @@ def turnClockwise(angle: float):
         # Reset both encoders to 0 for clean starting positions
         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT))
         BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT))
-        
-        # Set speed limits for turning
-        BP.set_motor_limits(LEFT_MOTOR_PORT, 50, TURNING_SPEED)
-        BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, TURNING_SPEED)
 
         left_target = offset
         right_target = -offset
@@ -108,7 +100,8 @@ def turnClockwise(angle: float):
         print("Turning clockwise %f degrees\nA target: %f, D target: %f" %
               (angle, left_target, right_target))
 
-        # Set both motor positions (opposite directions for turning)
+        # Set both motor positions as close together as possible
+        # Cannot use combined ports here because targets are different
         BP.set_motor_position(LEFT_MOTOR_PORT, left_target)
         BP.set_motor_position(RIGHT_MOTOR_PORT, right_target)
 
@@ -125,11 +118,8 @@ try:
     except IOError as error:
         print(error)
     
-    # Set motor limits: power limit (50%), speed limit (DPS)
-    # Use MOVEMENT_SPEED for forward, TURNING_SPEED for turning
-    # Initial motor limits (will be updated in forward() and turnClockwise())
-    BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
-    BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
+    BP.set_motor_limits(LEFT_MOTOR_PORT, 50, TURNING_SPEED)
+    BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, TURNING_SPEED)
 
     count = 0
     while (count < 4):

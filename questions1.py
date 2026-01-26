@@ -22,7 +22,7 @@ BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be 
 LEFT_MOTOR_PORT = BP.PORT_A
 RIGHT_MOTOR_PORT = BP.PORT_D
 
-POSITION_TOLERANCE = 2.0  # Tolerance in degrees for position checking (increased to prevent overshooting)
+POSITION_TOLERANCE = 5.0  # Tolerance in degrees for position checking (increased to prevent timeout issues)
 TIMEOUT = 60  # Maximum time to wait for motors to reach position (Seconds)
 
 def wait_for_motor_position(left_target, right_target):
@@ -32,6 +32,7 @@ def wait_for_motor_position(left_target, right_target):
     Returns True if targets reached, False if timeout occurred.
     """
     start_time = time.time()
+    last_print_time = start_time
 
     while time.time() - start_time < TIMEOUT:
         try:
@@ -41,9 +42,15 @@ def wait_for_motor_position(left_target, right_target):
             left_error = abs(left_target - left_current)
             right_error = abs(right_target - right_current)
 
+            # Print progress every 0.5 seconds
+            if time.time() - last_print_time > 0.5:
+                print("Waiting... L=%d (target=%.1f, error=%.1f), R=%d (target=%.1f, error=%.1f)" %
+                      (left_current, left_target, left_error, right_current, right_target, right_error))
+                last_print_time = time.time()
+
             # Check if both motors are within tolerance
             if left_error < POSITION_TOLERANCE and right_error < POSITION_TOLERANCE:
-                print("Position reached: L=%d (target=%d, error=%d), R=%d (target=%d, error=%d)" %
+                print("Position reached: L=%d (target=%.1f, error=%.1f), R=%d (target=%.1f, error=%.1f)" %
                       (left_current, left_target, left_error, right_current, right_target, right_error))
                 return True
 
@@ -51,17 +58,17 @@ def wait_for_motor_position(left_target, right_target):
             time.sleep(0.05)
 
         except IOError as error:
-            print(error)
+            print("IOError in wait_for_motor_position: %s" % error)
             time.sleep(0.1)
 
     # Timeout occurred
     try:
         left_current = BP.get_motor_encoder(LEFT_MOTOR_PORT)
         right_current = BP.get_motor_encoder(RIGHT_MOTOR_PORT)
-        print("WARNING: Timeout! Current: L=%d (target=%d), R=%d (target=%d)" %
-              (left_current, left_target, right_current, right_target))
+        print("WARNING: Timeout after %d seconds! Current: L=%d (target=%.1f), R=%d (target=%.1f)" %
+              (TIMEOUT, left_current, left_target, right_current, right_target))
     except IOError as error:
-        print(error)
+        print("IOError getting final positions: %s" % error)
 
     return False
 
@@ -85,9 +92,10 @@ def forward(distance: float):
 
         wait_for_motor_position(target, target)
         time.sleep(MINI_WAIT_TIME)  # Small pause after reaching target
+        print("Forward movement completed\n")
 
     except IOError as error:
-        print(error)
+        print("IOError in forward: %s" % error)
 
 
 def turnClockwise(angle: float):
@@ -128,9 +136,10 @@ def turnClockwise(angle: float):
 
         wait_for_motor_position(left_target, right_target)
         time.sleep(MINI_WAIT_TIME)  # Small pause after reaching target
+        print("Turn completed\n")
 
     except IOError as error:
-        print(error)
+        print("IOError in turnClockwise: %s" % error)
 
 try:
     try:

@@ -11,11 +11,14 @@ TURNING_SPEED = 150   # Speed for turning (Degrees Per Second)
 
 PI = 3.14159627
 
-WHEEL_DIAMETER = 69.36
+WHEEL_DIAMETER = 67
 WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * PI
-WHEELBASE_WIDTH = 134.341
+WHEELBASE_WIDTH = 152
 
-MINI_WAIT_TIME = 3  # Time to wait after each movement (Seconds)
+DISTANCE_ERROR = 2 * PI
+ANGLE_ERROR = -19.5
+
+MINI_WAIT_TIME = 0.75  # Time to wait after each movement (Seconds)
 
 BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
@@ -66,7 +69,7 @@ def wait_for_motor_position(left_target, right_target):
     return False
 
 def forward(distance: float):
-    target = (360 * distance) / WHEEL_CIRCUMFERENCE
+    target = (360 * distance) / (WHEEL_CIRCUMFERENCE + DISTANCE_ERROR)
 
     try:
         # Reset both encoders to 0 to ensure synchronized absolute targets
@@ -87,7 +90,20 @@ def forward(distance: float):
 
 
 def turnClockwise(angle: float):
-    offset = (WHEELBASE_WIDTH * PI * angle / 360) / WHEEL_CIRCUMFERENCE * 360
+    """
+    Turn the robot on the spot around its center (between the wheels).
+    For differential drive turning on the spot:
+    - Each wheel travels in an arc with radius = WHEELBASE_WIDTH / 2
+    - Arc length = angle_radians * radius
+    """
+    # Convert angle to radians
+    angle_rad = angle * PI / 180.0
+    
+    # Calculate arc length each wheel must travel (radius = half wheelbase)
+    arc_length = angle_rad * (WHEELBASE_WIDTH + ANGLE_ERROR) / 2.0
+    
+    # Convert arc length to encoder degrees
+    offset = (arc_length / WHEEL_CIRCUMFERENCE) * 360.0
 
     try:
         # Reset both encoders to 0 for clean starting positions

@@ -23,15 +23,18 @@ BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be 
 
 try:
     try:
-        BP.offset_motor_encoder(BP.PORT_B, BP.get_motor_encoder(BP.PORT_B)) # reset encoder B
-        BP.offset_motor_encoder(BP.PORT_C, BP.get_motor_encoder(BP.PORT_C))
+        BP.offset_motor_encoder(BP.PORT_D, BP.get_motor_encoder(BP.PORT_D)) # reset encoder B
+        BP.offset_motor_encoder(BP.PORT_A, BP.get_motor_encoder(BP.PORT_A))
     except IOError as error:
         print(error)
+    
+    BP.set_motor_power(BP.PORT_D, BP.MOTOR_FLOAT)                          # float motor D
+    BP.set_motor_limits(BP.PORT_A, 70)                                     # optionally set a power limit
     
     while True:
         # The following BP.get_motor_encoder function returns the encoder value (what we want to use to control motor C's power).
         try:
-            power = BP.get_motor_encoder(BP.PORT_B) / 10
+            power = BP.get_motor_encoder(BP.PORT_D) / 10
             if power > 100:
                 power = 100
             elif power < -100:
@@ -39,10 +42,10 @@ try:
         except IOError as error:
             print(error)
             power = 0
-        BP.set_motor_power(BP.PORT_C, power)
+        BP.set_motor_power(BP.PORT_A, power)
         
         try:
-            print("Motor C power: %6d  Motor C Status: " % power, BP.get_motor_status(BP.PORT_C))
+            print("Motor C power: %6d  Motor C Status: " % power, BP.get_motor_status(BP.PORT_A))
         except IOError as error:
             print(error)
         

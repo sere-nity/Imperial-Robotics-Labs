@@ -45,7 +45,7 @@ try:
         BP.set_motor_power(BP.PORT_A, power)
         
         try:
-            print("Motor C power: %6d  Motor C Status: " % power, BP.get_motor_status(BP.PORT_A))
+            print("Motor A power: %6d  Motor A Status: " % power, BP.get_motor_status(BP.PORT_A))
         except IOError as error:
             print(error)
         

@@ -76,7 +76,7 @@ def wait_for_motor_position(left_target, right_target):
     return False
 
 def forward(distance: float):
-    target = (360 * distance) / PI * (WHEEL_CIRCUMFERENCE + DISTANCE_ERROR)
+    target = (360 * distance) / (PI * (WHEEL_CIRCUMFERENCE + DISTANCE_ERROR))
 
     try:
         # Reset both encoders to 0 to ensure synchronized absolute targets

@@ -59,6 +59,11 @@ for i in range(1, len(corners) + 1):
 
 for line in lines:
     print("drawLine:", str(line))
-
-
+ 
+for _ in range(4):
+    for _ in range(4):
+        for particle in particles:
+            print("drawParticles:", str(tuple(particle)))
+        particles = np.apply_along_axis(lambda p: apply_forward(p, 10), axis=1, arr=particles)
+    particles = np.apply_along_axis(lambda p: apply_turn(p, -90), axis=1, arr=particles)
         

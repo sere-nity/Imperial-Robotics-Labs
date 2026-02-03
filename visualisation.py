@@ -1,4 +1,6 @@
-corners = [(0, 0), (40, 0), (40, 40), (0, 40)]
+SQUARE_SIZE = 500
+
+corners = [(0, 0), (SQUARE_SIZE, 0), (SQUARE_SIZE, SQUARE_SIZE), (0, SQUARE_SIZE)]
 lines = []
 
 

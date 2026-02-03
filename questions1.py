@@ -6,7 +6,7 @@ import brickpi3 # import the BrickPi3 drivers
 
 # UNITS ARE MILLIMETRES
 
-MOVEMENT_SPEED = 250  # Speed for moving forward (Degrees Per Second)
+MOVEMENT_SPEED = 180  # Speed for moving forward (Degrees Per Second)
 TURNING_SPEED = 150   # Speed for turning (Degrees Per Second)
 
 PI = 3.14159627
@@ -22,8 +22,8 @@ MINI_WAIT_TIME = 0.75  # Time to wait after each movement (Seconds)
 
 BP = brickpi3.BrickPi3() # Create an instance of the BrickPi3 class. BP will be the BrickPi3 object.
 
-LEFT_MOTOR_PORT = BP.PORT_B
-RIGHT_MOTOR_PORT = BP.PORT_C
+LEFT_MOTOR_PORT = BP.PORT_A
+RIGHT_MOTOR_PORT = BP.PORT_D
 
 POSITION_TOLERANCE = 0.5  # Tolerance in degrees for position checking
 TIMEOUT = 60  # Maximum time to wait for motors to reach position (Seconds)

@@ -13,7 +13,8 @@ def robot_position(particles, weights):
     x /= NUM_PARTICLES
     y /= NUM_PARTICLES
     theta /= NUM_PARTICLES
-    return screen_to_real(x, y, theta)
+    particle = (x, y, theta)
+    return screen_to_real(particle)
 
 def screen_to_real(particle):
     x, y, theta = particle

@@ -18,8 +18,8 @@ def robot_position(particles, weights):
 
 def screen_to_real(particle):
     x, y, theta = particle
-    x = (x - SQUARE_X_OFFSET / SQUARE_DRAW_SIZE) * SQUARE_REAL_SIZE
-    y = (y - SQUARE_Y_OFFSET / SQUARE_DRAW_SIZE) * SQUARE_REAL_SIZE
+    x = ((x - SQUARE_X_OFFSET) / SQUARE_DRAW_SIZE) * SQUARE_REAL_SIZE
+    y = ((y - SQUARE_Y_OFFSET) / SQUARE_DRAW_SIZE) * SQUARE_REAL_SIZE
     return (x, y, theta)
 
 def navigate_to_waypoint(waypoint, particles, weights):

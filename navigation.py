@@ -30,9 +30,13 @@ def navigate_to_waypoint(waypoint, particles, weights):
     robot_x, robot_y, robot_theta = robot_position(particles, weights)
     w_x, w_y = waypoint
 
+    print("robot_x: ", robot_x)
+    print("robot_y: ", robot_y)
+    print("robot_theta: ", robot_theta)
+
     distance = np.sqrt((w_x - robot_x)**2 + (w_y - robot_y)**2)
     
-    phi = np.arctan((w_x - robot_x) / (w_y - robot_y))
+    phi = np.rad2deg(np.arctan((w_x - robot_x) / (w_y - robot_y)))
 
     particles = turnClockwise(particles, -phi-robot_theta)
     particles = forward(particles, distance)

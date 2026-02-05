@@ -175,10 +175,9 @@ try:
 
     time.sleep(1)
 
-    count = 0
-    while (count < 4):
-        count += 1
-        particles = forward(particles, 400)
+    for _ in range(4):
+        for _ in range(4):
+            particles = forward(particles, 100)
         particles = turnClockwise(particles, -90)
 
 except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.

@@ -32,8 +32,6 @@ def navigate_to_waypoint(waypoint, particles, weights):
     print("robot_theta: ", robot_theta)
 
     distance = np.sqrt((w_x - robot_x)**2 + (w_y - robot_y)**2)
-
-    print("robot_y: ", robot_y)
     
     phi = np.rad2deg(np.arctan((w_x - robot_x) / (w_y - robot_y)))
 

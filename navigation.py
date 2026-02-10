@@ -15,33 +15,36 @@ def navigate_to_waypoint(waypoint, particles, weights):
     print("robot_theta: ", robot_theta)
 
     distance = np.sqrt((w_x - robot_x)**2 + (w_y - robot_y)**2)
-    
-    phi = np.rad2deg(np.arctan((w_x - robot_x) / (w_y - robot_y)))
+    print("distance: ", distance)
+
+    phi = np.rad2deg(np.arctan((w_y - robot_y) / (w_x - robot_x)))
+    print("turn: ", -phi-robot_theta)
 
     particles = turnClockwise(particles, -phi-robot_theta)
     particles = forward(particles, distance)
 
     return particles
 
-# try:
-#     try:
-#         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT)) # reset encoder A
-#         BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT)) # reset encoder D
-#     except IOError as error:
-#         print(error)
+try:
+    try:
+        BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT)) # reset encoder A
+        BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT)) # reset encoder D
+    except IOError as error:
+        print(error)
     
-#     # Initial motor limits (will be updated in forward() and turnClockwise())
-#     BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
-#     BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
+    # Initial motor limits (will be updated in forward() and turnClockwise())
+    BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
+    BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
 
-#     particles = np.array([ROBOT_START_POS] * NUM_PARTICLES)
-#     weights = np.array([1/NUM_PARTICLES] * NUM_PARTICLES)
+    particles = np.array([ROBOT_START_POS] * NUM_PARTICLES)
+    weights = np.array([1/NUM_PARTICLES] * NUM_PARTICLES)
     
-#     initial_drawing(particles)
+    initial_drawing(particles)
 
-#     time.sleep(1)
+    time.sleep(1)
 
-#     particles = navigate_to_waypoint((80, 40), particles, weights)
+    particles = navigate_to_waypoint((80, 40), particles, weights)
+    particles = navigate_to_waypoint((400, 400), particles, weights)
 
-# except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
-#     BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
+except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
+    BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

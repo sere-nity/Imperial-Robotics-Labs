@@ -25,7 +25,7 @@ Helper functions!
 def real_to_screen(particle):
     x, y, theta = particle
     x = ((x / SQUARE_REAL_SIZE) * SQUARE_DRAW_SIZE) + SQUARE_X_OFFSET
-    y = (-1 * ((y - SQUARE_DRAW_SIZE) / SQUARE_REAL_SIZE) * SQUARE_DRAW_SIZE) + SQUARE_Y_OFFSET # fix this...
+    y = ((y / SQUARE_REAL_SIZE) * SQUARE_DRAW_SIZE) + SQUARE_Y_OFFSET + SQUARE_DRAW_SIZE
     return (x, y, theta)
 
 def robot_position(particles, weights):
@@ -85,9 +85,7 @@ def apply_all_forward(particles, distance):
     particles = np.apply_along_axis(lambda p: apply_forward(p, distance), axis=1, arr=particles)
     screen_particles = np.apply_along_axis(lambda p: np.array(real_to_screen(p)), axis=1, arr=particles)
 
-    # print("drawParticles:", list(map(tuple, screen_particles)))
-    # print_draw_particles(particles)
-
+    print_draw_particles(particles)
     print_formatted_robot_pos(particles, screen_particles)
 
     return particles
@@ -120,16 +118,14 @@ Main body
 """
 
 particles = np.array([ROBOT_START_POS] * NUM_PARTICLES)
+
+initial_drawing(particles)
 print_formatted_robot_pos(particles)
 
 for _ in range(4):
     for _ in range(4):
-        # print("drawParticles:", list(map(tuple, particles)))
         time.sleep(1)
         print("Moving forward 100")
         particles = apply_all_forward(particles, 100)
     print("Turning -90 degrees")
     particles = apply_all_turn(particles, -90)
-
-# # render for last position
-# print("drawParticles:", list(map(tuple, particles)))

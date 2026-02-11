@@ -44,6 +44,17 @@ try:
     time.sleep(1)
 
     particles = navigate_to_waypoint((80, 40), particles, weights)
+    BP.reset_all()
+    try:
+        BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT)) # reset encoder A
+        BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT)) # reset encoder D
+    except IOError as error:
+        print(error)
+
+    # Initial motor limits (will be updated in forward() and turnAntiClockwise())
+    BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
+    BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
+    
     particles = navigate_to_waypoint((0, 0), particles, weights)
 
 finally: # at the end of everything, even with exception.

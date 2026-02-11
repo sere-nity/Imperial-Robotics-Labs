@@ -14,6 +14,9 @@ def navigate_to_waypoint(waypoint, particles, weights):
     print("robot_y: ", robot_y)
     print("robot_facing: ", robot_facing)
 
+    print("w_x: ", w_x)
+    print("w_y: ", w_y)
+
     distance = np.sqrt((w_x - robot_x)**2 + (w_y - robot_y)**2)
     print("distance: ", distance)
 

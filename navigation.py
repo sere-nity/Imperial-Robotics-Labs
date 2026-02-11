@@ -46,5 +46,5 @@ try:
     particles = navigate_to_waypoint((80, 40), particles, weights)
     #particles = navigate_to_waypoint((400, 400), particles, weights)
 
-except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
+finally: # at the end of everything, even with exception.
     BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

@@ -50,8 +50,6 @@ try:
 
     time.sleep(1)
 
-
-
     print("Enter an x coordinate: ")
     x_coord = int(input())
     print("Enter a y coordinate: ")
@@ -64,8 +62,6 @@ try:
         x_coord = int(input())
         print("Enter a y coordinate: ")
         y_coord = int(input())
-
-        particles = navigate_to_waypoint((0, 0), particles, weights)
 
 finally: # at the end of everything, even with exception.
     BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

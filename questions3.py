@@ -110,7 +110,7 @@ def forward(particles, distance: float):
 
 
 
-def turnAntiClockwise(particles, angle: float):
+def turnClockwise(particles, angle: float):
     """
     Turn the robot on the spot around its center (between the wheels).
     For differential drive turning on the spot:
@@ -135,9 +135,9 @@ def turnAntiClockwise(particles, angle: float):
         BP.set_motor_limits(LEFT_MOTOR_PORT, 50, TURNING_SPEED)
         BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, TURNING_SPEED)
 
-        # Left wheel goes forward, right wheel goes backward (for counter-clockwise turn)
-        left_target = -offset
-        right_target = offset
+        # Left wheel goes forward, right wheel goes backward (for clockwise turn)
+        left_target = offset
+        right_target = -offset
 
         print("Turning %f degrees\nLeft target: %f, Right target: %f" %
               (angle, left_target, right_target))
@@ -157,7 +157,7 @@ def turnAntiClockwise(particles, angle: float):
         return particles
 
     except IOError as error:
-        print("IOError in turnAntiClockwise: %s" % error)
+        print("IOError in turnClockwise: %s" % error)
 
 # try:
 #     try:

@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from questions3 import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnAntiClockwise
+from questions3 import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnClockwise
 from visualisation import NUM_PARTICLES, ROBOT_START_POS, initial_drawing, robot_position
 
 def navigate_to_waypoint(waypoint, particles, weights):
@@ -25,9 +25,9 @@ def navigate_to_waypoint(waypoint, particles, weights):
     if (w_x - robot_x) < 0:
         facing_target += 180
     print("facing_target: ", facing_target)
-    print("turn: ", facing_target-robot_facing)
+    print("turn: ", -facing_target+robot_facing)
 
-    particles = turnAntiClockwise(particles, facing_target-robot_facing)
+    particles = turnClockwise(particles, -facing_target+robot_facing)
     particles = forward(particles, distance)
 
     return particles
@@ -39,7 +39,7 @@ try:
     except IOError as error:
         print(error)
     
-    # Initial motor limits (will be updated in forward() and turnAntiClockwise())
+    # Initial motor limits (will be updated in forward() and turnClockwise())
     BP.set_motor_limits(LEFT_MOTOR_PORT, 50, MOVEMENT_SPEED)
     BP.set_motor_limits(RIGHT_MOTOR_PORT, 50, MOVEMENT_SPEED)
 

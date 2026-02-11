@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from questions3 import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnClockwise
+from questions3 import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnClockwise, turnAntiClockwise
 from visualisation import NUM_PARTICLES, ROBOT_START_POS, initial_drawing, robot_position
 
 def navigate_to_waypoint(waypoint, particles, weights):
@@ -20,7 +20,7 @@ def navigate_to_waypoint(waypoint, particles, weights):
     phi = np.rad2deg(np.arctan((w_y - robot_y) / (w_x - robot_x)))
     print("turn: ", -phi-robot_theta)
 
-    particles = turnClockwise(particles, -phi-robot_theta)
+    particles = turnAntiClockwise(particles, phi+robot_theta)
     particles = forward(particles, distance)
 
     return particles

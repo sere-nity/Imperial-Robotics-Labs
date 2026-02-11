@@ -7,21 +7,21 @@ def navigate_to_waypoint(waypoint, particles, weights):
     # mean of the particles X, Y and theta
     # find angle and distance to get to waypoint
     # move robot (this will update the particles).
-    robot_x, robot_y, robot_theta = robot_position(particles, weights)
+    robot_x, robot_y, robot_facing = robot_position(particles, weights)
     w_x, w_y = waypoint
 
     print("robot_x: ", robot_x)
     print("robot_y: ", robot_y)
-    print("robot_theta: ", robot_theta)
+    print("robot_facing: ", robot_facing)
 
     distance = np.sqrt((w_x - robot_x)**2 + (w_y - robot_y)**2)
     print("distance: ", distance)
 
-    phi = np.rad2deg(np.arctan((w_y - robot_y) / (w_x - robot_x)))
-    print("phi: ", phi)
-    print("turn: ", phi-robot_theta)
+    facing_target = np.rad2deg(np.arctan((w_y - robot_y) / (w_x - robot_x)))
+    print("facing_target: ", facing_target)
+    print("turn: ", facing_target-robot_facing)
 
-    particles = turnAntiClockwise(particles, phi-robot_theta)
+    particles = turnAntiClockwise(particles, facing_target-robot_facing)
     particles = forward(particles, distance)
 
     return particles

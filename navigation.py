@@ -21,7 +21,7 @@ def navigate_to_waypoint(waypoint, particles, weights):
     print("turn: ", -phi-robot_theta)
 
     particles = turnAntiClockwise(particles, phi+robot_theta)
-    #particles = forward(particles, distance)
+    particles = forward(particles, distance)
 
     return particles
 

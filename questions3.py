@@ -80,8 +80,7 @@ def wait_for_motor_position(left_target, right_target):
 def forward(particles, distance: float):
     target = (360 * distance) / (WHEEL_CIRCUMFERENCE + DISTANCE_ERROR)
 
-    try:
-        BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
+    try:    # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
         # Reset both encoders to 0 to ensure synchronized absolute targets
         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT))
         BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT))
@@ -127,8 +126,7 @@ def turnAntiClockwise(particles, angle: float):
     # Convert arc length to encoder degrees
     offset = (arc_length / WHEEL_CIRCUMFERENCE) * 360.0
 
-    try:
-        BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
+    try:    # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.
         # Reset both encoders to 0 for clean starting positions
         BP.offset_motor_encoder(LEFT_MOTOR_PORT, BP.get_motor_encoder(LEFT_MOTOR_PORT))
         BP.offset_motor_encoder(RIGHT_MOTOR_PORT, BP.get_motor_encoder(RIGHT_MOTOR_PORT))

@@ -27,7 +27,13 @@ def navigate_to_waypoint(waypoint, particles, weights):
     print("facing_target: ", facing_target)
     print("turn: ", facing_target-robot_facing)
 
-    particles = turnAntiClockwise(particles, facing_target-robot_facing)
+    total_target = facing_target - robot_facing
+    if total_target > 180:
+        total_target -= 360
+    elif total_target < -180:
+        total_target += 360
+
+    particles = turnAntiClockwise(particles, total_target)
     particles = forward(particles, distance)
 
     return particles

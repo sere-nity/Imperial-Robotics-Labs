@@ -185,5 +185,5 @@ if __name__ == "__main__":
             particles = turnAntiClockwise(particles, 90)
         # particles = navigate_to_waypoint((80, 40), particles, weights)
 
-    except KeyboardInterrupt: # except the program gets interrupted by Ctrl+C on the keyboard.
+    finally: # except the program gets interrupted by Ctrl+C on the keyboard.
         BP.reset_all()        # Unconfigure the sensors, disable the motors, and restore the LED to the control of the BrickPi3 firmware.

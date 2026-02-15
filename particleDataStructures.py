@@ -5,6 +5,29 @@
 import time
 import random
 import math
+import numpy as np
+
+# particle constants
+NUM_PARTICLES = 100
+ROBOT_START_POS = (84, 30, 0, 1/NUM_PARTICLES)
+
+# distribution constants
+E_MEAN, E_VAR = 0, 10 # in mm
+F_MEAN, F_VAR = 0, 1 # in degrees
+G_MEAN, G_VAR = 0, 1 # in degrees
+
+# waypoints (in cm)
+WAYPOINTS = [
+    (84, 30),
+    (180, 30),
+    (180, 54),
+    (138, 54),
+    (138, 168),
+    (114, 116),
+    (114, 84),
+    (84, 84),
+    (84, 30),
+]
 
 # Functions to generate some dummy particles data:
 def calcX():
@@ -18,6 +41,42 @@ def calcW():
 
 def calcTheta():
     return random.randint(0,360)
+
+"""
+Movement Functions!
+"""
+
+def apply_forward(particle, distance):
+    """
+    particle: the particle to to move forward
+    distance: the distance (in cm) that the robot moves forward
+    """    
+    x, y, theta, w = particle
+
+    angle = np.deg2rad(theta)
+    x_rand = np.random.normal(E_MEAN, E_VAR)
+    y_rand = np.random.normal(E_MEAN, E_VAR)
+    theta_rand = np.random.normal(F_MEAN, F_VAR)
+    
+    x_new = x + (distance + x_rand) * np.cos(angle)
+    y_new = y + (distance + y_rand) * np.sin(angle)
+    theta_new = theta + theta_rand
+
+    return (x_new, y_new, theta_new, w)
+
+def apply_turn(particle, angle):
+    """
+    particle: the particle to to move forward
+    angle: the angle (in degrees) that the robot rotates
+    """
+    x, y, theta, w = particle
+    theta_rand = np.random.normal(G_MEAN, G_VAR)
+
+    return (x, y, theta + angle + theta_rand, w)
+
+""" 
+Data Structures! 
+"""
 
 # A Canvas class for drawing a map and particles:
 # 	- it takes care of a proper scaling and coordinate transformation between
@@ -64,7 +123,7 @@ class Map:
 # Simple Particles set
 class Particles:
     def __init__(self):
-        self.n = 10    
+        self.n = NUM_PARTICLES 
         self.data = []
 
     def update(self):
@@ -72,6 +131,18 @@ class Particles:
     
     def draw(self):
         canvas.drawParticles(self.data)
+    
+    def forward(self, distance):
+        """
+        distance: the distance (in cm) that the robot moves forward
+        """
+        self.data = [apply_forward(particle, distance) for particle in self.data]
+    
+    def turn(self, angle):
+        """
+        angle: the angle (in degrees) that the robot rotates
+        """
+        self.data = [apply_turn(particle, angle) for particle in self.data]
 
 canvas = Canvas()	# global canvas we are going to draw on
 

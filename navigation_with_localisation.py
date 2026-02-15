@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from questions3 import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnAntiClockwise
+from motion import BP, LEFT_MOTOR_PORT, MOVEMENT_SPEED, RIGHT_MOTOR_PORT, forward, turnAntiClockwise
 from visualisation import NUM_PARTICLES, ROBOT_START_POS, initial_drawing, robot_position
 
 def navigate_to_waypoint(waypoint, particles, weights):
